@@ -8,31 +8,12 @@
           <div class="popup--container__wrapper">
             <div class="popup--container__content">
               <div class="popup--container__content-wrapper">
-                <div class="three-stars">
-                  <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" :fill="data.badgeColor">
-                      <path
-                        d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z">
-                      </path>
-                    </svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" :fill="data.badgeColor">
-                      <path
-                        d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z">
-                      </path>
-                    </svg></span><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" :fill="data.badgeColor">
-                      <path
-                        d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z">
-                      </path>
-                    </svg></span>
-                </div>
-                <div class="title">
-                  {{data.title}}
-                </div>
-                <form action="#" method="GET">
-                  <input placeholder="E-mail" /><button type="button">
-                     {{data.button_text}}
-                  </button>
-                </form>
-                <div> {{data.footnote}}</div>
+                <component
+                  v-for="name in orderedComponents"
+                  :is="name"
+                  v-bind:key="name"
+                  :val="data"
+                />
               </div>
             </div>
           </div>
@@ -55,6 +36,11 @@
 <script>
 import PopupTemplate from './PopupTemplate.vue';
 import CopyButton from '@/atoms/CopyButton.vue';
+import Badge from '@/mini/Badge.vue';
+import Title from '@/mini/Title.vue';
+import Input from '@/mini/Input.vue';
+import Button from '@/mini/Button.vue';
+import Subtext from '@/mini/Subtext.vue';
 
 export default {
     name: "Popup",
@@ -68,7 +54,17 @@ export default {
         title: tag
       }
     },
-    components: { PopupTemplate, CopyButton },
+    computed: {
+      orderedComponents: function () {
+        let elOrder = JSON.parse(this.data.el_order)
+        let order = []
+        for(let i = 0; i < elOrder.length; i++){
+          order.push(elOrder[i].name)
+        }
+        return order
+      }
+    },
+    components: { PopupTemplate, CopyButton, Badge, Title, Subtext, Input, Button},
 }
 </script>
 
@@ -196,36 +192,18 @@ export default {
           }
 
            button {
-    width: 100%;
-    background-color: #4d4c4e;
-    color: #fff;
-    text-transform: uppercase;
-    padding: 12px 12px;
-    border-radius: 16px;
-    border: unset;
-    font-weight: 700;
-    font-size: 24px;
-    font-family: 'Poppins';
-    margin-bottom: 15px;
-  }
-
-  .three-stars {
-  width: 150px;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-
-  span{
-    width: 42px;
-    height: 42px;
-    
-    &:first-child, &:last-child {
-      margin-top: 22px;
-      width: 28px;
-      height: 28px;
-    }
-  }
-}
+            width: 100%;
+            background-color: #1a1a1a;
+            color: #fff;
+            text-transform: uppercase;
+            padding: 12px 12px;
+            border-radius: 16px;
+            border: unset;
+            font-weight: 700;
+            font-size: 24px;
+            font-family: 'Poppins';
+            margin-bottom: 15px;
+          }
         }
         }
       }

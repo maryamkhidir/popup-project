@@ -7,7 +7,6 @@
     <div class="template__elements">
       <PopupTemplate :popupid="popupid" :scale="scale" />
     </div>
-    
   </div>
 </template>
 

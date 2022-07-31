@@ -16,7 +16,7 @@ export default {
 <style scoped lang="scss">
   button {
     width: 100%;
-    background-color: #4d4c4e;
+    background-color: #1a1a1a;
     color: #fff;
     text-transform: uppercase;
     padding: 12px 12px;

@@ -35,15 +35,17 @@ export default {
         }
     },
     methods: {
-        createPopup() {
-            const uid = new ShortUniqueId({ length: 8 });
-            const popup_id = uid();
-            this.$store.commit("createPopup", popup_id);
-            this.$router.push({ name: "create", params: { popupid: popup_id } });
-        }
+      createPopup() {
+        const uid = new ShortUniqueId({ length: 8 });
+        const popup_id = uid();
+        this.$store.commit("createPopup", popup_id);
+        this.$router.push({ name: "create", params: { popupid: popup_id } });
+      }
     },
-    created() {
-        this.$store.dispatch("fetchPopupsAsync");
+    mounted() {
+      //if(! this.$store.state.popups.length){
+        this.$store.dispatch('fetchPopupsAsync');
+      //}
     },
     components: { Popup }
 }
@@ -68,7 +70,7 @@ export default {
     }
   }
   .main {
-    padding: 80px 0 50px 0;
+    padding: 50px 0 30px 0;
   }
   .popup-view {
     display: flex;

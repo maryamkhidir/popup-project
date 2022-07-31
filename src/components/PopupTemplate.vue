@@ -6,10 +6,16 @@
           <div class="template--container__wrapper">
             <div class="template--container__content">
               <div class="template--container__content-wrapper">
-                <Badge />
-                <Title />
-                <Form />
-                <Subtext />
+                <draggable v-model="elOrder"
+                class="template--container__content-wrapper"
+                group="people" 
+                @start="drag=true" 
+                @end="drag=false" 
+                item-key="id">
+                  <template #item="{element}">
+                    <component :key="element.id" :is="element.name"></component> 
+                  </template>
+                </draggable>
               </div>
             </div>
           </div>
@@ -22,18 +28,33 @@
 <script>
 import Title from "@/atoms/Title.vue";
 import Badge from "@/atoms/Badge.vue";
-import Form from "./Form.vue";
+import Input from '@/atoms/Input.vue';
+import Button from '@/atoms/Button.vue';
 import Subtext from "@/atoms/Subtext.vue";
+import draggable from 'vuedraggable';
 
 export default {
   name: 'PopupTemplate',
   props: {
     scale: [Number, String]
   },
-  components: { Badge, Title, Form, Subtext },
+  data() {
+    return {
+      drag: false,
+    }
+  },
+  components: { draggable, Badge, Title, Subtext, Input, Button },
   computed: {
     background(){
       return this.$store.state.popup.background
+    },
+    elOrder: {
+      get() {
+       return this.$store.state.elOrder
+      },
+      set(value) {
+        this.$store.commit('updateElOrder', value)
+      }
     }
   },
 }

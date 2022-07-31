@@ -40,7 +40,12 @@
       </div>
     </div>
     <div class="popup-description__box" >
-      {{`<script src="popup.js?id=${data.popup_id}" />`}}
+      <div class="script" :title="title">
+        {{`${title.slice(0, 20)} ...`}}
+      </div>
+      <div>
+        <CopyButton :text="title" />
+      </div>
     </div>
     </div>
   </div>
@@ -49,12 +54,31 @@
 
 <script>
 import PopupTemplate from './PopupTemplate.vue';
+import CopyButton from '@/atoms/CopyButton.vue';
+
 export default {
     name: "Popup",
     props: {
-        data: Object
+      data: Object
     },
-    components: { PopupTemplate }
+    data() {
+      return {
+        copied: false,
+        title: `<script id="poptin-pixel-script" src="http://127.0.0.1:5500/fetch.js?poptin-pixel-id=${this.data.popup_id}" />`
+      }
+    },
+    components: { PopupTemplate, CopyButton },
+    methods: {
+      onCopy: function () {
+        this.$copyText(this.title).then(function (e) {
+          alert('Copied')
+          console.log(e)
+        }, function (e) {
+          alert('Can not copy')
+          console.log(e)
+        })
+      }
+    }
 }
 </script>
 
@@ -97,6 +121,27 @@ export default {
       width: calc(100% - 41px);
       font-size: 12px;
       word-break: break-all;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      button {
+        background-color: #c8c0eb;
+        border: unset;
+        width: 80px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+        height: 30px;
+        cursor:pointer;
+      }
+      .script {
+        width: calc(100% - 90px);
+        margin-right: 10px;
+      }
+      span {
+        font-size: 10px;
+      }
     }
 
   .popup{

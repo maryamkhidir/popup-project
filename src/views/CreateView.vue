@@ -32,7 +32,7 @@ export default {
         let popup_id = this.$store.state.popup.popup_id
         if(!popup_id) {
           //create new id
-          const uid = new ShortUniqueId({ length: 14 });
+          const uid = new ShortUniqueId({ length: 8 });
           popup_id = uid()
 
           //update store
@@ -40,6 +40,9 @@ export default {
         }
         this.popupid = popup_id
       },
+    },
+    unmounted(){
+      this.$store.commit('clearPopup')
     }
   }
 </script>

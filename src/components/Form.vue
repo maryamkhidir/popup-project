@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form action="#" method="GET" >
     <Input />
     <Button />
   </form>

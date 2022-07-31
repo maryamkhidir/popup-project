@@ -9,6 +9,7 @@
   "dependencies": {
     "@ckpack/vue-color": "^1.2.0",
     "@types/vue-color": "^2.4.4",
+    "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "short-unique-id": "^4.4.4",
     "tinycolor2": "^1.4.2",

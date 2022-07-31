@@ -2,7 +2,7 @@
   <div class="template" ref="templateEditor">
     <div class="template__header">
       <h3>Create Popup</h3>
-      <button>SAVE</button>
+      <button @click="savePopup">SAVE</button>
     </div>
     <div class="template__elements">
       <PopupTemplate :popupid="popupid" :scale="scale" />
@@ -39,7 +39,11 @@ export default {
       const width = this.$refs.templateEditor.clientWidth
       if(width < 550) this.scale = (width/530).toFixed(2)
     },
-  },
+    savePopup() {
+      this.$store.dispatch('savePopupAsync')
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 
@@ -68,6 +72,7 @@ export default {
         font-size: 16px;
         font-weight: 600;
         height: 43px;
+        cursor:pointer;
       }
     }
 

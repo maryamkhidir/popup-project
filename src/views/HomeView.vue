@@ -4,24 +4,48 @@
       <h2>Popups</h2>
       <button @click="createPopup">Create Popup</button>
     </header>
+    <div class="main">
+      <div v-if="loading">
+        Loading
+      </div>
+      <div v-else>
+        <div class="popup-view" v-if="popups.length">
+          <div class="popups" v-for="popup in popups" :key="popup.id">
+            <Popup :data="popup" />
+          </div>
+        </div>
+        <div v-else>You don't have popups yet.</div>
+      </div>
+    </div>
   </main>
 </template>
 
 <script>
 import ShortUniqueId from 'short-unique-id';
+import Popup from '@/components/Popup.vue';
 
 export default {
-  name: 'HomeView',
-  methods: {
-    createPopup() {
-      const uid = new ShortUniqueId({ length: 14 });
-      const popup_id = uid()
-
-      this.$store.commit('createPopup', popup_id)
-
-      this.$router.push({ name: 'create', params: { popupid: popup_id } })
-    }
-  }
+    name: "HomeView",
+    computed: {
+        loading() {
+            return this.$store.state.loading;
+        },
+        popups() {
+            return this.$store.state.popups;
+        }
+    },
+    methods: {
+        createPopup() {
+            const uid = new ShortUniqueId({ length: 8 });
+            const popup_id = uid();
+            this.$store.commit("createPopup", popup_id);
+            this.$router.push({ name: "create", params: { popupid: popup_id } });
+        }
+    },
+    created() {
+        this.$store.dispatch("fetchPopupsAsync");
+    },
+    components: { Popup }
 }
 </script>
 
@@ -42,5 +66,12 @@ export default {
       color: #FFF;
       cursor: pointer;
     }
+  }
+  .main {
+    padding: 80px 0 50px 0;
+  }
+  .popup-view {
+    display: flex;
+    flex-wrap: wrap;
   }
 </style>

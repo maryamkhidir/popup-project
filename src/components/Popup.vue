@@ -62,9 +62,10 @@ export default {
       data: Object
     },
     data() {
+      const tag = '<script id="poptin-pixel-script" src="https://poptin-laravel-api.herokuapp.com/pixel.js?poptin-pixel-id='+this.data.popup_id+'">'+'<'+'/script>';
       return {
         copied: false,
-        title: `<script id="poptin-pixel-script" src="https://poptin-laravel-api.herokuapp.com/pixel.js?poptin-pixel-id=${this.data.popup_id}" />`
+        title: tag
       }
     },
     components: { PopupTemplate, CopyButton },

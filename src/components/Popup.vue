@@ -64,21 +64,10 @@ export default {
     data() {
       return {
         copied: false,
-        title: `<script id="poptin-pixel-script" src="http://127.0.0.1:5500/fetch.js?poptin-pixel-id=${this.data.popup_id}" />`
+        title: `<script id="poptin-pixel-script" src="https://poptin-laravel-api.herokuapp.com/pixel.js?poptin-pixel-id=${this.data.popup_id}" />`
       }
     },
     components: { PopupTemplate, CopyButton },
-    methods: {
-      onCopy: function () {
-        this.$copyText(this.title).then(function (e) {
-          alert('Copied')
-          console.log(e)
-        }, function (e) {
-          alert('Can not copy')
-          console.log(e)
-        })
-      }
-    }
 }
 </script>
 

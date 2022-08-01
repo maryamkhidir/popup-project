@@ -70,25 +70,26 @@ export default {
 
 <style lang="scss" scoped >
   .popup-description {
-    padding: 0 10px;
-    max-height: 301px;
-    max-width: 250px;
+    margin: 0 20px;
+    max-height: 343px;
+    max-width: 350px;
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 49px;
+    box-shadow: 1px 1px 11px 0px rgb(148 140 169 / 10%);
 
     .wrapper {
-      max-height: 300px;
+      max-height: 305px;
       cursor: pointer;
       
       .overlay{
-        width: calc(100% - 21px);
+        width: 100%;
         display: block;
         position: absolute;
         top: 0;
-        padding-bottom: 100%;
+        padding-bottom: calc(100% - 11px);
         height: 0;
-        background-color: rgb(42 42 42 / 49%);
-        box-shadow: 0px 2px 10px rgb(0 0 0 / 10%);
+        background-color: rgba(42, 42, 42, 0.49);
+        background-color: rgba(255, 255, 255, 0.21);
         z-index: 1;
       }
 
@@ -97,14 +98,14 @@ export default {
     &__box {
       height: 40px;
       background-color: #7661df;
-      box-shadow: 0px 2px 10px rgb(0 0 0 / 10%);
+      box-shadow: -1px 3px 13px 2px rgb(127 114 172 / 61%);
       z-index: 2;
       position: absolute;
       left: 10;
       bottom: 0;
       padding: 10px 10px;
       color: white;
-      width: calc(100% - 41px);
+      width: calc(100% - 20px);
       font-size: 12px;
       word-break: break-all;
       display: flex;

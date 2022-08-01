@@ -70,7 +70,10 @@ export default {
     }
   }
   .main {
-    padding: 50px 0 30px 0;
+    padding: 50px 40px 30px 40px;
+    box-shadow: -1px 3px 11px 0px rgb(127 114 172 / 61%);
+    margin-top: 30px;
+    border-radius: 4px;
   }
   .popup-view {
     display: flex;

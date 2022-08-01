@@ -2,7 +2,7 @@
   <div class="template" ref="templateEditor">
     <div class="template__header">
       <h3>Create Popup</h3>
-      <button @click="savePopup">SAVE</button>
+      <button @click="savePopup">{{button}}</button>
     </div>
     <div class="template__elements">
       <PopupTemplate :popupid="popupid" :scale="scale" />
@@ -21,7 +21,8 @@ export default {
   },
   data() {
     return {
-      scale:1
+      scale:1,
+      button: "SAVE"
     }
   },
   created()  {
@@ -40,7 +41,12 @@ export default {
     },
     savePopup() {
       this.$store.dispatch('savePopupAsync')
-      this.$router.push('/')
+      this.button = "SAVING..."
+      
+      setTimeout(() => {
+       this.$router.push('/')
+      }, 2000);
+      
     }
   }
 }

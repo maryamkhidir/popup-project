@@ -1,7 +1,7 @@
 <template>
   <div class="popup-description">
     <div class="wrapper">
-    <div class="overlay"></div>
+    <div class="overlay" @click="showPreview"></div>
     <div class="popup" style="transform: scale(0.43)">
       <div class="popup--container" :style="{background:data.background}">
         <div class="popup--container__inner">
@@ -65,17 +65,39 @@ export default {
       }
     },
     components: { PopupTemplate, CopyButton, Badge, Title, Subtext, Input, Button},
+    methods: {
+      showPreview(){
+        console.log("showing")
+        console.log("showing")
+      }
+    }
 }
 </script>
 
 <style lang="scss" scoped >
-  .popup-description {
+  .preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: aquamarine;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    margin: 0px;
+    background: rgba(0, 0, 0, 0.33);
+  }
+  .popup-description, .preview {
     margin: 0 20px;
     max-height: 343px;
     max-width: 350px;
     position: relative;
     margin-bottom: 49px;
     box-shadow: 1px 1px 11px 0px rgb(148 140 169 / 10%);
+    transition: all .2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.1);
+    }
 
     .wrapper {
       max-height: 305px;
@@ -92,9 +114,7 @@ export default {
         background-color: rgba(255, 255, 255, 0.21);
         z-index: 1;
       }
-
     }
-
     &__box {
       height: 40px;
       background-color: #7661df;

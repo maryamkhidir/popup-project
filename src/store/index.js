@@ -1,6 +1,6 @@
 import { findIndex } from 'lodash'
 import { createStore } from 'vuex'
-import { createPopup, fetchPopups } from './api'
+import { addPopup, fetchPopups } from './api'
 
 export default createStore({
   state: {
@@ -69,8 +69,7 @@ export default createStore({
       const upload = {...popup, el_order:elorder}
       
       //Updates
-      commit('savePopup', upload)
-      createPopup(upload)
+      addPopup(upload)
 
       state.loading = false
     },

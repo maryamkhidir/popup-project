@@ -11,7 +11,7 @@
       <div v-else>
         <div class="popup-view" v-if="popups.length">
           <div class="popups" v-for="popup in popups" :key="popup.id">
-            <Popup :data="popup" />
+            <Popup :data="popup" @click="preview" />
           </div>
         </div>
         <div v-else>You don't have popups yet.</div>
@@ -26,28 +26,32 @@ import Popup from '@/components/Popup.vue';
 
 export default {
     name: "HomeView",
+    components: { Popup },
     computed: {
-        loading() {
-            return this.$store.state.loading;
-        },
-        popups() {
-            return this.$store.state.popups;
-        }
+      loading() {
+        return this.$store.state.loading
+      },
+      popups() {
+        return this.$store.state.popups
+      }
     },
     methods: {
+      fetchPopups() {
+        this.$store.dispatch('fetchPopupsAsync');
+      },
       createPopup() {
         const uid = new ShortUniqueId({ length: 8 });
         const popup_id = uid();
         this.$store.commit("createPopup", popup_id);
         this.$router.push({ name: "create", params: { popupid: popup_id } });
+      },
+      preview(){
+        console.log("first")
       }
     },
     mounted() {
-      //if(! this.$store.state.popups.length){
-        this.$store.dispatch('fetchPopupsAsync');
-      //}
-    },
-    components: { Popup }
+      this.fetchPopups()
+    }
 }
 </script>
 

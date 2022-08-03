@@ -11,7 +11,7 @@
       <div v-else>
         <div class="popup-view" v-if="popups.length">
           <div class="popups" v-for="popup in popups" :key="popup.id">
-            <Popup :data="popup" @click="editPopup(popup)" />
+            <Popup :data="popup" />
           </div>
         </div>
         <div v-else>You don't have popups yet.</div>
@@ -44,10 +44,6 @@ export default {
         const popup_id = uid();
         this.$store.commit("createPopup", popup_id);
         this.$router.push({ name: "create", params: { popupid: popup_id } });
-      },
-      editPopup(popup) {
-        this.$store.commit("editPopup", popup);
-        this.$router.push({ name: "edit", params: { popupid: popup.popup_id} });
       }
     },
     mounted() {

@@ -1,4 +1,3 @@
-import { findIndex } from 'lodash'
 import { createStore } from 'vuex'
 import { addPopup, fetchPopups } from './api'
 
@@ -13,15 +12,35 @@ export default createStore({
       footnote: "No credit card required. No Surprises",
       badgecolor: "#c43433"
     },
-    elOrder:[
-      {name: "Badge",id: 0},
-      {name: "Title",id: 1},
-      {name: "Input",id: 2},
-      {name: "Button",id: 3},
-      {name: "Subtext",id: 4},
-    ],
     popup:{},
-    popups:[]
+    popups:[],
+    positions:{
+      title: {
+          name: "title",
+          left: "60px",
+          top: "90px",
+      },
+      badge: {
+          name: "badge",
+          left: "162px",
+          top: "20px"
+      },
+      input: {
+        name: "input",
+        left: "60px",
+        top: "200px"
+      },
+      button: {
+          name: "button",
+          left: "60px",
+          top: "277px"
+      },
+      subtext: {
+          name: "subtext",
+          left: "72px",
+          top: "352px"
+      }
+  }
   },
   getters: {
   },
@@ -56,8 +75,8 @@ export default createStore({
     updatePopups(state, data){
       state.popups = data
     },
-    updateElOrder(state, data){
-      state.elOrder = data
+    savePositions(state, data){
+      state.positions[data[0]] = data[1]
     }
   },
   actions: {
@@ -65,9 +84,8 @@ export default createStore({
       state.loading = true
       //Add element order to popup
       const popup = state.popup
-      const elorder = JSON.stringify(state.elOrder)
-      const upload = {...popup, el_order:elorder}
-      
+      const positions = JSON.stringify(state.positions)
+      const upload = {...popup, el_order:positions}
       //Updates
       addPopup(upload)
 

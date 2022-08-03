@@ -8,12 +8,13 @@
           <div class="popup--container__wrapper">
             <div class="popup--container__content">
               <div class="popup--container__content-wrapper">
-                <component
-                  v-for="name in orderedComponents"
-                  :is="name"
-                  v-bind:key="name"
-                  :val="data"
-                />
+                 <template v-for="element in elements" :key="element.id">
+                  <component
+                    :is="element.name"
+                    :val="data"
+                    :style="{position:'absolute', left:positions[(element.name)].left, top:positions[(element.name)].top}"
+                  />
+                 </template>
               </div>
             </div>
           </div>
@@ -51,20 +52,30 @@ export default {
       const tag = '<script id="poptin-pixel-script" src="https://poptin-laravel-api.herokuapp.com/pixel.js?poptin-pixel-id='+this.data.popup_id+'">'+'<'+'/script>';
       return {
         copied: false,
-        title: tag
+        title: tag,
+        elements: [
+          {name: "Badge",id: 0},
+          {name: "Title",id: 1},
+          {name: "Input",id: 2},
+          {name: "Button",id: 3},
+          {name: "Subtext",id: 4},
+        ],
       }
     },
     computed: {
-      orderedComponents: function () {
-        let elOrder = JSON.parse(this.data.el_order)
-        let order = []
-        for(let i = 0; i < elOrder.length; i++){
-          order.push(elOrder[i].name)
-        }
-        return order
+      positions(){
+        let element = JSON.parse(this.data.el_order)
+        let components = {};
+        Object.keys(element).forEach(name => {
+          if(typeof(name) == 'string'){
+            let capName = name.charAt(0).toUpperCase() + name.substring(1, name.length).toLowerCase()  
+            components[capName] = element[name]
+          }
+        })
+        return components
       }
     },
-    components: { PopupTemplate, CopyButton, Badge, Title, Subtext, Input, Button},
+    components: { PopupTemplate, CopyButton, Badge, Title, Subtext, Input, Button}
 }
 </script>
 
@@ -160,6 +171,7 @@ export default {
 
     &--container {
       display: flex;
+      position: relative;
       color: #222;
       background: transparent;
       text-align: center;
@@ -174,6 +186,13 @@ export default {
         height: calc(100% - 26px);
         border: 3px solid white;
         border-radius: 50%;
+        position: absolute;
+      }
+
+      &__wrapper {
+        width: 100%;
+        height: 100%;
+        display: table;
       }
 
       &__content {
@@ -183,13 +202,16 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: center;
-
+          .three-stars{
+            z-index: 1;
+          }
           .title{
             font-weight: 600;
             font-size: 24px;
             color: #FFF;
             margin-bottom: 20px;
             line-height: 30px;
+            width: 354px;
           }
           div {
             color: #fff;
@@ -198,7 +220,7 @@ export default {
           input {
             border: unset;
             border-radius: 16px;
-            width: calc( 100% - 24px );
+            width: 330px;
             padding: 12px;
             margin-bottom: 25px;
             font-size: 18px;
@@ -207,7 +229,7 @@ export default {
           }
 
            button {
-            width: 100%;
+            width: 354px;
             background-color: #1a1a1a;
             color: #fff;
             text-transform: uppercase;

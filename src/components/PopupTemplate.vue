@@ -49,21 +49,20 @@ export default {
   },
   data() {
     return {
-      drag: false,
+      positions: {},
+      elOrder: [
+        {name: "Badge",id: 0},
+        {name: "Title",id: 1},
+        {name: "Input",id: 2},
+        {name: "Button",id: 3},
+        {name: "Subtext",id: 4},
+      ],
     }
   },
   components: { draggable, Badge, Title, Subtext, Input, Button, Badge, Button, Move },
   computed: {
     background(){
       return this.$store.state.popup.background
-    },
-    elOrder: {
-      get() {
-       return this.$store.state.elOrder
-      },
-      set(value) {
-        this.$store.commit('updateElOrder', value)
-      }
     }
   },
   methods: {
@@ -82,7 +81,8 @@ export default {
     },
     drop(event) { 
       let position = event.dataTransfer.getData("position").split(",");
-      let component = document.getElementById(position[0]);
+      let name = position[0];
+      let component = document.getElementById(name);
 
       //create boundary for drop
       const VP = 474; const mid = VP/2; //container square width and midpoint
@@ -124,6 +124,9 @@ export default {
 
       component.style.left = newX;
       component.style.top =  newY;
+  
+      this.$store.commit('savePositions', [name,{name, left: newX, top: newY}])
+
     }
   }
 }

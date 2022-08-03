@@ -11,7 +11,7 @@
       <div v-else>
         <div class="popup-view" v-if="popups.length">
           <div class="popups" v-for="popup in popups" :key="popup.id">
-            <Popup :data="popup" @click="preview" />
+            <Popup :data="popup" />
           </div>
         </div>
         <div v-else>You don't have popups yet.</div>

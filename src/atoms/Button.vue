@@ -1,5 +1,8 @@
 <template>
-  <button type="button">{{button_text}}</button>
+  <aside>
+    <button type="button">{{button_text}}</button>
+    <slot></slot>
+  </aside>
 </template>
 
 <script>
@@ -14,8 +17,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  aside{
+    position: absolute;
+    top: 277px;
+    left: calc((474px - 354px)/2);
+    width: 354px;
+    &:hover{
+      border: 2px solid #dbd6f3;
+      border-radius: 7px;
+    }
+  }
   button {
-    width: 100%;
+    width: 354px;
     background-color: #1a1a1a;
     color: #fff;
     text-transform: uppercase;
@@ -25,6 +38,5 @@ export default {
     font-weight: 700;
     font-size: 24px;
     font-family: 'Poppins';
-    margin-bottom: 15px;
   }
 </style>

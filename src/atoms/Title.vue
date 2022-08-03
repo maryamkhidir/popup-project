@@ -1,47 +1,62 @@
 <template>
-  <div 
-    class="title" 
-    contenteditable="true" 
-    @input="editTitle($event)"
-  >
-    {{editableTitle}}
-  </div>
+  <aside>
+    <div 
+      class="title" 
+      contenteditable="true" 
+      @input="editTitle($event)"
+    >
+      {{editableTitle}}
+    </div>
+    <slot></slot>
+  </aside>
 </template>
 
 <script>
+import Move from './Move.vue'
 
 export default {
-  name: 'Title',
-  data() {
-    return  {
-      title: "",
-      editableTitle: ""
-    }
-  },
-  mounted() {
-    this.getTitle()
-  },
-  methods: {
-    getTitle(){
-      let defaultTitle  = this.$store.state.popup.title
-      
-      this.title = defaultTitle
-      this.editableTitle = defaultTitle
+    name: "Title",
+    data() {
+        return {
+            title: "",
+            editableTitle: ""
+        };
     },
-    editTitle(e) {
-      const inputText = e.target.innerText;
-      this.$store.commit('setTitle', inputText)
-    }
-  }
+    mounted() {
+        this.getTitle();
+    },
+    methods: {
+        getTitle() {
+            let defaultTitle = this.$store.state.popup.title;
+            this.title = defaultTitle;
+            this.editableTitle = defaultTitle;
+        },
+        editTitle(e) {
+            const inputText = e.target.innerText;
+            this.$store.commit("setTitle", inputText);
+        }
+    },
+    components: { Move }
 }
 </script>
 
 <style lang="scss" scoped>
-  .title{
-    font-weight: 600;
-    font-size: 24px;
-    color: #FFF;
-    margin-bottom: 20px;
-    line-height: 30px;
+   aside{
+    position: absolute;
+    left: calc((474px - 354px)/2);
+    top: 90px;
+    width: 354px;
+    &:hover{
+      border: 2px solid #dbd6f3;
+      border-radius: 7px;
+    }
+    .title{
+      font-weight: 600;
+      font-size: 24px;
+      color: #FFF;
+      line-height: 30px;
+      cursor: text;
+    }
   }
+
 </style>

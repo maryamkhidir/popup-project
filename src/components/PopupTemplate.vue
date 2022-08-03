@@ -1,21 +1,29 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" >
     <div class="template" :style="{transform: 'scale(' + scale+')'}">
       <div class="template--container" :style="{background:background}">
         <div class="template--container__inner">
-          <div class="template--container__wrapper">
-            <div class="template--container__content">
-              <div class="template--container__content-wrapper">
-                <draggable v-model="elOrder"
-                class="template--container__content-wrapper"
-                group="people" 
-                @start="drag=true" 
-                @end="drag=false" 
-                item-key="id">
-                  <template #item="{element}">
-                    <component :key="element.id" :is="element.name"></component> 
+          <div class="template--container__wrapper" >
+            <div class="template--container__content" >
+              <div class="template--container__content-wrapper"
+                  @drop="drop($event)"
+                  @dragover.prevent
+                  @dragenter.prevent
+                  >
+                  <template v-for="element in elOrder" :key="element.id">
+                    <component
+                      :is="element.name"
+                      :id="element.name.toLowerCase()" 
+                      draggable="true"
+                      @dragstart="dragStart($event, element.name.toLowerCase())"
+                      class="draggable"
+                      @mouseover="showMove(element.name.toLowerCase()+'-move')" @mouseout="hideMove(element.name.toLowerCase()+'-move')"
+                    >
+                    <button :id="element.name.toLowerCase()+'-move'" class="move-button" title="Move">
+                      <Move />
+                    </button>
+                    </component> 
                   </template>
-                </draggable>
               </div>
             </div>
           </div>
@@ -32,6 +40,7 @@ import Input from '@/atoms/Input.vue';
 import Button from '@/atoms/Button.vue';
 import Subtext from "@/atoms/Subtext.vue";
 import draggable from 'vuedraggable';
+import Move from "@/atoms/Move.vue";
 
 export default {
   name: 'PopupTemplate',
@@ -43,7 +52,7 @@ export default {
       drag: false,
     }
   },
-  components: { draggable, Badge, Title, Subtext, Input, Button },
+  components: { draggable, Badge, Title, Subtext, Input, Button, Badge, Button, Move },
   computed: {
     background(){
       return this.$store.state.popup.background
@@ -57,10 +66,82 @@ export default {
       }
     }
   },
+  methods: {
+    showMove(name){
+      document.getElementById(name).style.display = "block"
+    },
+    hideMove(name){
+      document.getElementById(name).style.display = "none"
+    },
+    dragStart(event,name) {
+      let style = window.getComputedStyle(event.target, null);
+
+      let position = name+","+(parseInt(style.getPropertyValue("left"),10) - event.clientX)+","+(parseInt(style.getPropertyValue("top"),10) - event.clientY)+","+parseInt(style.getPropertyValue("width"),10)+","+parseInt(style.getPropertyValue("height"),10)
+
+      event.dataTransfer.setData("position", position)
+    },
+    drop(event) { 
+      let position = event.dataTransfer.getData("position").split(",");
+      let component = document.getElementById(position[0]);
+
+      //create boundary for drop
+      const VP = 474; const mid = VP/2; //container square width and midpoint
+      
+      let x = event.clientX + parseInt(position[1],10) //x-coordinate
+      let y = event.clientY + parseInt(position[2],10) //y-coordinate
+
+      let w = parseInt(position[3],10) //width of component
+      let h = parseInt(position[4],10) //height of component
+      let xMax = parseInt((VP-w), 10) //max position from left
+      let yMax = parseInt(((VP-h)), 10) //max position from top
+
+      let xPad = 0; let xMin = 0; let range = 10;
+      let minDepth = 20 //min depth allowed to remain in the circle
+      let maxDepth = (VP-(h+minDepth)) //max depth allowed to remain in the circle
+
+      //Calculate padding to force item to remain in circle
+      if(y<=minDepth) { 
+        //top corners of the circle
+        xPad = (mid/minDepth)*range
+      }else if(y > minDepth &&  y <= maxDepth){
+        //for the mid parts of the circle
+        xPad = (y<mid) ? (mid/y)*range : (mid/(VP-y))*2*range; 
+        //xPad = (y<mid) ? (mid/y)*range : (VP/(VP-y))*1.5*range; 
+      }else { 
+        //for the bottom of the circle
+        xPad = (VP/(VP-y))*range;
+      }
+
+      //enforce circle boundry for components with width smaller than the current segment
+      let remainingBreadth = (VP-(xPad*2)) //room left horizontally
+      if(w <= remainingBreadth){
+        xMin = parseInt((xPad), 10)
+        xMax = parseInt((VP - (w+(xMin))), 10)
+      }
+
+      const newX = (x<xMin) ? xMin+"px" : (x>xMax) ? xMax+"px" : x+"px"
+      const newY = (y<0) ? "0px" : (y>yMax) ? yMax+"px" : y+"px"
+
+      component.style.left = newX;
+      component.style.top =  newY;
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+  .draggable {
+    cursor: pointer;
+    .move-button {
+      background: transparent;
+      border: unset;
+      position: absolute;
+      bottom: -27px;
+      right: -26px;
+      cursor: move;
+      display: none;
+    }
+  }
   .wrapper{
     width: 100%;
     height: 550px;
@@ -119,13 +200,15 @@ export default {
       }
 
       &__content {
-        display: table-cell;
-        padding: 1.25rem 3.75rem;
+        /* display: table-cell;
+        padding: 1.25rem 3.75rem; */
+        width: 100%;
+        height: 100%;
 
         &-wrapper {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
+          position: relative;
+    height: 100%;
+
         }
 
        

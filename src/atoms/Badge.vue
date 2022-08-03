@@ -1,9 +1,12 @@
 <template>
-  <div class="three-stars">
-    <span v-for="star in badge" :key="star">
-      <Star :fill="fill" />
-    </span>
-  </div>
+  <aside>
+    <div class="three-stars">
+      <span v-for="star in badge" :key="star">
+        <Star :fill="fill" />
+      </span>
+    </div>
+    <slot></slot>
+  </aside>
 </template>
 
 <script>
@@ -24,11 +27,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  aside{
+    position: absolute;
+    top: 20px;
+    left: calc((474px - 150px)/2);
+    z-index: 1;
+    width: 150px;
+    &:hover{
+      border: 2px solid #dbd6f3;
+      border-radius: 7px;
+    }
+  }
 .three-stars {
-  width: 150px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
 
   span{
     width: 42px;

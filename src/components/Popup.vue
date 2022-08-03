@@ -65,12 +65,6 @@ export default {
       }
     },
     components: { PopupTemplate, CopyButton, Badge, Title, Subtext, Input, Button},
-    methods: {
-      showPreview(){
-        console.log("showing")
-        console.log("showing")
-      }
-    }
 }
 </script>
 

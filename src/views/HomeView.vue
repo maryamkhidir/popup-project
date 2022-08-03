@@ -44,9 +44,6 @@ export default {
         const popup_id = uid();
         this.$store.commit("createPopup", popup_id);
         this.$router.push({ name: "create", params: { popupid: popup_id } });
-      },
-      preview(){
-        console.log("first")
       }
     },
     mounted() {

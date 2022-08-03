@@ -1,5 +1,8 @@
 <template>
-  <input :placeholder="placeholder" />
+  <aside>
+    <input :placeholder="placeholder" />
+    <slot></slot>
+  </aside>
 </template>
 
 <script>
@@ -14,12 +17,21 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  aside{
+    position: absolute;
+    top: 200px;
+    left: calc((474px - 354px)/2);
+    width: 354px;
+    &:hover{
+      border: 2px solid #dbd6f3;
+      border-radius: 7px;
+    }
+  }
   input {
+    width: 330px;
     border: unset;
     border-radius: 16px;
-    width: calc( 100% - 24px );
     padding: 12px;
-    margin-bottom: 25px;
     font-size: 18px;
     font-family: 'Poppins';
 

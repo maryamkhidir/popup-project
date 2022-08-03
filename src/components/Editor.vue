@@ -1,8 +1,13 @@
 <template>
   <div class="template" ref="templateEditor">
     <div class="template__header">
-      <h3>Create Popup</h3>
-      <button @click="savePopup">{{button}}</button>
+      <h3>{{title}}</h3>
+      <button v-if="(this.$route.name === 'edit')" @click="editPopup">
+        {{edit}}
+      </button>
+      <button v-else @click="savePopup">
+        {{save}}
+      </button>
     </div>
     <div class="template__elements">
       <PopupTemplate :popupid="popupid" :scale="scale" />
@@ -22,7 +27,14 @@ export default {
   data() {
     return {
       scale:1,
-      button: "SAVE"
+      edit: "UPDATE",
+      save: "SAVE"
+    }
+  },
+  computed: {
+    title() {
+      if((this.$route.name === "edit")) return "Edit Popup"
+      else return "Create Popup"
     }
   },
   created()  {
@@ -41,7 +53,16 @@ export default {
     },
     savePopup() {
       this.$store.dispatch('savePopupAsync')
-      this.button = "SAVING..."
+      this.save = "SAVING..."
+      
+      setTimeout(() => {
+       this.$router.push('/')
+      }, 2000);
+      
+    },
+    editPopup() {
+      this.$store.dispatch('updatePopupAsync')
+      this.edit = "UPDATING..."
       
       setTimeout(() => {
        this.$router.push('/')
@@ -72,7 +93,7 @@ export default {
       button {
         background-color: #c8c0eb;
         border: unset;
-        width: 100px;
+        min-width: 100px;
         border-radius: 4px;
         font-size: 16px;
         font-weight: 600;

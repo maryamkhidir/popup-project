@@ -19,8 +19,8 @@ export default {
 <style scoped lang="scss">
   aside{
     position: absolute;
-    top: 277px;
-    left: calc((474px - 354px)/2);
+    /* top: 277px;
+    left: calc((474px - 354px)/2); */
     width: 354px;
     &:hover{
       border: 2px solid #dbd6f3;

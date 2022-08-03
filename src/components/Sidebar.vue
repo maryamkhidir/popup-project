@@ -51,9 +51,9 @@ export default {
       },
       set (value) {
         let color = value.hex8
-        let badgecolor = tinycolor(color).darken(20).toString()
+        let badgeColor = tinycolor(color).darken(20).toString()
 
-        this.$store.commit('setBackground', {color, badgecolor })
+        this.$store.commit('setBackground', {color, badgeColor })
       }
     },
     button_text: {

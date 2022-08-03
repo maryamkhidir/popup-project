@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     fill(){
-      return this.$store.state.popup.badgecolor
+      return this.$store.state.popup.badgeColor
     }
   },
 }

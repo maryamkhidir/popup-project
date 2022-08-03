@@ -3,40 +3,50 @@
     <header>
       <router-link class="route" to="/">Back Home</router-link>
     </header>
-    <div class="popup-editor">
-      <Sidebar />
-      <Editor :popupid="popupid"/>
+    <div class="main">
+      <div v-if="loading">
+        Loading
+      </div>
+      <div v-else>
+        <div class="popup-editor">
+          <Sidebar />
+          <Editor :popupid="popupid" />
+        </div>
+      </div>
     </div>
   </main>
 </template>
 
 <script>
-import ShortUniqueId from 'short-unique-id';
 import Sidebar from "@/components/Sidebar.vue";
 import Editor from "@/components/Editor.vue";
 
 export default {
-    name: "CreateView",
+    name: "EditView",
+    components: { Sidebar, Editor },
     data() {
       return  {
         popupid: null,
       }
     },
-    components: { Sidebar, Editor },
     created() {
-      this.initializePopup()
+      this.fetchPopup()
+    },
+    computed: {
+      loading() {
+        return this.$store.state.loading
+      },
+      popups() {
+        return this.$store.state.popup
+      }
     },
     methods: {
-      initializePopup(){
-        //let popup_id = this.$route.params.popupid
-        let popup_id = this.$store.state.popup.popup_id
-        if(!popup_id) {
-          //create new id
-          const uid = new ShortUniqueId({ length: 8 });
-          popup_id = uid()
-
-          //update store
-          this.$store.commit('createPopup', popup_id)
+      fetchPopup(){
+        let popup_id = this.$route.params.popupid
+        if(popup_id) {
+          this.$store.dispatch('getPopupAsync', popup_id);
+        }else{
+          this.$router.push("create")
         }
         this.popupid = popup_id
       },

@@ -10,7 +10,7 @@
                   @dragover.prevent
                   @dragenter.prevent
                   >
-                  <template v-for="element in elOrder" :key="element.id">
+                 <template v-for="element in elOrder" :key="element.id">
                     <component
                       :is="element.name"
                       :id="element.name.toLowerCase()" 
@@ -18,6 +18,7 @@
                       @dragstart="dragStart($event, element.name.toLowerCase())"
                       class="draggable"
                       @mouseover="showMove(element.name.toLowerCase()+'-move')" @mouseout="hideMove(element.name.toLowerCase()+'-move')"
+                      :style="{position:'absolute', left:positions[(element.name)].left, top:positions[(element.name)].top}"
                     >
                     <button :id="element.name.toLowerCase()+'-move'" class="move-button" title="Move">
                       <Move />
@@ -49,7 +50,6 @@ export default {
   },
   data() {
     return {
-      positions: {},
       elOrder: [
         {name: "Badge",id: 0},
         {name: "Title",id: 1},
@@ -63,6 +63,18 @@ export default {
   computed: {
     background(){
       return this.$store.state.popup.background
+    },
+    positions(){
+      let element = this.$store.state.positions
+      element
+      let components = {};
+      Object.keys(element).forEach(name => {
+        if(typeof(name) == 'string'){
+          let capName = name.charAt(0).toUpperCase() + name.substring(1, name.length).toLowerCase()  
+          components[capName] = element[name]
+        }
+      })
+      return components
     }
   },
   methods: {
@@ -203,24 +215,15 @@ export default {
       }
 
       &__content {
-        /* display: table-cell;
-        padding: 1.25rem 3.75rem; */
         width: 100%;
         height: 100%;
 
         &-wrapper {
           position: relative;
-    height: 100%;
+          height: 100%;
 
         }
 
-       
-        /* @media screen and (max-width: 768px) {
-          padding: 2rem 3.5rem;
-        }
-        @media screen and (max-width: 480px) {
-          padding: 1.2rem 2.5rem;
-        } */
       }
 
     }

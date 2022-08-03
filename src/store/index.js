@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import { addPopup, fetchPopups } from './api'
+import { addPopup, fetchPopups, getPopup, updatePopup } from './api'
 
 export default createStore({
   state: {
@@ -10,7 +10,7 @@ export default createStore({
       placeholder: "E-mail",
       button_text: "Signup Now",
       footnote: "No credit card required. No Surprises",
-      badgecolor: "#c43433"
+      badgeColor: "#c43433"
     },
     popup:{},
     popups:[],
@@ -48,12 +48,43 @@ export default createStore({
     createPopup (state, id) {
       state.popup = {...state.template, popup_id:id}
     },
-    clearPopup (state, id) {
+    editPopup (state, popup) {
+      state.popup = popup
+      state.positions = JSON.parse(popup.el_order)
+    },
+    clearPopup (state, data) {
       state.popup = {}
+      state.positions =  {
+        title: {
+          name: "title",
+          left: "60px",
+          top: "90px",
+        },
+        badge: {
+            name: "badge",
+            left: "162px",
+            top: "20px"
+        },
+        input: {
+          name: "input",
+          left: "60px",
+          top: "200px"
+        },
+        button: {
+            name: "button",
+            left: "60px",
+            top: "277px"
+        },
+        subtext: {
+            name: "subtext",
+            left: "72px",
+            top: "352px"
+        }
+      }
     },
     setBackground(state, data){
       state.popup["background"] = data.color
-      state.popup["badgecolor"] = data.badgecolor
+      state.popup["badgeColor"] = data.badgeColor
     },
     setTitle(state, data){
       state.popup["title"] = data
@@ -82,19 +113,37 @@ export default createStore({
   actions: {
     savePopupAsync({commit, state}){
       state.loading = true
-      //Add element order to popup
-      const popup = state.popup
+      //Add element positions to popup
+      let upload = {...state.popup}
       const positions = JSON.stringify(state.positions)
-      const upload = {...popup, el_order:positions}
+      upload["el_order"] = positions
+    
       //Updates
       addPopup(upload)
-
       state.loading = false
     },
     async fetchPopupsAsync({commit, state}){
       state.loading = true
       const response = await fetchPopups()
       commit('updatePopups', response.data)
+      state.loading = false
+    },
+    async getPopupAsync({commit, state}, id){
+      state.loading = true
+      const response = await getPopup(id)
+      commit('editPopup', response.data)
+      state.loading = false
+    },
+    updatePopupAsync({commit, state}){
+      state.loading = true
+
+      let upload = {...state.popup}
+      let popupid = state.popup.id
+      //Add element positions to popup
+      const positions = JSON.stringify(state.positions)
+      upload["el_order"] = positions
+      updatePopup(popupid, upload)
+    
       state.loading = false
     }
   },

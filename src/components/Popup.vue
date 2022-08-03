@@ -1,7 +1,7 @@
 <template>
   <div class="popup-description">
     <div class="wrapper">
-    <div class="overlay" @click="showPreview"></div>
+    <div class="overlay" @click="editPopup(data)"></div>
     <div class="popup" style="transform: scale(0.43)">
       <div class="popup--container" :style="{background:data.background}">
         <div class="popup--container__inner">
@@ -75,7 +75,13 @@ export default {
         return components
       }
     },
-    components: { PopupTemplate, CopyButton, Badge, Title, Subtext, Input, Button}
+    components: { PopupTemplate, CopyButton, Badge, Title, Subtext, Input, Button},
+    methods:  {
+     editPopup(popup) {
+        this.$store.commit("editPopup", popup);
+        this.$router.push({ name: "edit", params: { popupid: popup.popup_id} });
+      }
+    }
 }
 </script>
 

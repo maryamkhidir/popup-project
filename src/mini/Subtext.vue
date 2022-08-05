@@ -1,5 +1,5 @@
 <template>
-  <div> {{val.footnote}}</div>
+  <div class="subtext"> {{val.footnote}}</div>
 </template>
 
 <script>
@@ -12,5 +12,8 @@ props:{
 </script>
 
 <style>
+  .subtext {
+    width: 330px
+  }
 
 </style>

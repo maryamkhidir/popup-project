@@ -33,10 +33,6 @@ export default {
     left: calc((474px - 150px)/2);
     z-index: 1;
     width: 150px;
-    &:hover{
-      border: 2px solid #dbd6f3;
-      border-radius: 7px;
-    }
   }
 .three-stars {
   display: flex;

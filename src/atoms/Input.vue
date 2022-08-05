@@ -22,10 +22,6 @@ export default {
     top: 200px;
     left: calc((474px - 354px)/2);
     width: 354px;
-    &:hover{
-      border: 2px solid #dbd6f3;
-      border-radius: 7px;
-    }
   }
   input {
     width: 330px;

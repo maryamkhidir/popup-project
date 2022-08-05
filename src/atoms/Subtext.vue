@@ -44,10 +44,6 @@ export default {
     left: calc((474px - 330px)/2);
     top: 352px;
     width: 330px;
-    &:hover{
-      border: 2px solid #dbd6f3;
-      border-radius: 7px;
-    }
   }
   div {
     color: #fff; 

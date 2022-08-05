@@ -46,10 +46,6 @@ export default {
     left: calc((474px - 354px)/2);
     top: 90px;
     width: 354px;
-    &:hover{
-      border: 2px solid #dbd6f3;
-      border-radius: 7px;
-    }
     .title{
       font-weight: 600;
       font-size: 24px;

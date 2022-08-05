@@ -17,8 +17,8 @@
                       draggable="true"
                       @dragstart="dragStart($event, element.name.toLowerCase())"
                       class="draggable"
-                      @mouseover="showMove(element.name.toLowerCase()+'-move')" @mouseout="hideMove(element.name.toLowerCase()+'-move')"
-                      :style="{position:'absolute', left:positions[(element.name)].left, top:positions[(element.name)].top}"
+                      @mouseover="showMove(element.name.toLowerCase())" @mouseout="hideMove(element.name.toLowerCase())"
+                      :style="{left:positions[(element.name)].left, top:positions[(element.name)].top}"
                     >
                     <button :id="element.name.toLowerCase()+'-move'" class="move-button" title="Move">
                       <Move />
@@ -79,10 +79,15 @@ export default {
   },
   methods: {
     showMove(name){
-      document.getElementById(name).style.display = "block"
+      const id = name+"-move"
+      document.getElementById(id).style.display = "block"
+      document.getElementById(name).style.border = "2px solid #dbd6f3"
+      document.getElementById(name).style.borderRadius = "7px"
     },
     hideMove(name){
-      document.getElementById(name).style.display = "none"
+      const id = name+"-move"
+      document.getElementById(id).style.display = "none"
+      document.getElementById(name).style.border = "2px solid transparent"
     },
     dragStart(event,name) {
       let style = window.getComputedStyle(event.target, null);
@@ -147,6 +152,9 @@ export default {
 <style lang="scss" scoped>
   .draggable {
     cursor: pointer;
+    position:'absolute';
+    border: '2px solid transparent';
+    text-align: center; 
     .move-button {
       background: transparent;
       border: unset;
@@ -221,13 +229,9 @@ export default {
         &-wrapper {
           position: relative;
           height: 100%;
-
         }
-
       }
-
     }
-    
   }
 
 </style>

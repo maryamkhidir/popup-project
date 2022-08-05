@@ -146,7 +146,7 @@ export default {
       button {
         background-color: #c8c0eb;
         border: unset;
-        width: 80px;
+        min-width: 80px;
         border-radius: 4px;
         font-size: 12px;
         font-weight: 600;

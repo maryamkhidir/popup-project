@@ -1,5 +1,5 @@
 <template>
-  <button @click="copy">COPY</button>
+  <button @click="copy(); changeText();">{{btntext}}</button>
 </template>
 
 <script>
@@ -10,6 +10,11 @@ export default defineComponent({
   name: "CopyButton",
   props: {
     text: String
+  },
+  data(){
+    return{
+      btntext: "COPY"
+    }
   },
   setup(props) {
     const { toClipboard } = useClipboard()
@@ -23,6 +28,11 @@ export default defineComponent({
     }
 
     return { copy }
+  },
+  methods:{
+    changeText(){
+      this.btntext = "COPIED!"
+    }
   }
 })
 </script>
